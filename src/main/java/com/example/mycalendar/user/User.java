@@ -11,9 +11,9 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name = "users")
+@Data
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -30,10 +30,6 @@ public class User {
     private Roles roles;
 
     @NotNull
-    @Column(nullable = false)
-    private String username;
-
-    @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -42,18 +38,19 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean verified = false;
 
-    public User(String email, String username, String password, Roles roles) {
+
+
+    public User(String email, String password, Roles roles) {
         this.email = email;
-        this.username = username;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(String id, String email, String username, String password, Roles roles) {
+    public User(String id, String email, String password, Roles roles, boolean verified) {
         this.id = id;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.roles = roles;
+        this.verified = verified;
     }
 }

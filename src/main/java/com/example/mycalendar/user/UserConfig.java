@@ -17,8 +17,8 @@ public class UserConfig {
     CommandLineRunner commandLineRunner(UserRepository repo) {
 
         return args -> {
-            User user = new User("0","admin@example.com", "admin",encoder.encode("12345"), Roles.ADMIN);
-            User olcay = new User("1","olcay@example.com", "olcay",encoder.encode("12345"), Roles.USER );
+            User user = new User("0","admin@example.com",encoder.encode("12345"), Roles.ADMIN, true);
+            User olcay = new User("1","olcay@example.com",encoder.encode("12345"), Roles.USER , false);
             repo.saveAll(List.of(user, olcay));
         };
     }

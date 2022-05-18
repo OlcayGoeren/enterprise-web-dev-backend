@@ -54,7 +54,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateSelf(String email, String username) {
+    public void updateSelf(String email) {
         String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        boolean isExisting = userRepository.existsById(id);
 
@@ -63,9 +63,6 @@ public class UserService {
             user.setEmail(email);
         }
 
-        if (username!=null && username.length() > 0){
-            user.setUsername(username);
-        }
     }
 
     public User getSelf() {
@@ -79,7 +76,6 @@ public class UserService {
                 () ->  new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with email "+email+" not found")
         );
         user.setEmail(email);
-        user.setUsername(username);
     }
 
     public void deleteUserById(String id) {

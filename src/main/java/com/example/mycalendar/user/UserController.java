@@ -43,10 +43,9 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public void updateSelf(
 //            @PathVariable("userId") String id,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String username
+            @RequestParam(required = false) String email
     ){
-        userService.updateSelf(email, username);
+        userService.updateSelf(email);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

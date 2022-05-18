@@ -63,7 +63,7 @@ public class AuthService {
         if (registerCredentials != null && userRepository.findUserByEmail(registerCredentials.getEmail()).isEmpty()){
             String encodedPass = encoder.encode(registerCredentials.getPassword());
             registerCredentials.setPassword(encodedPass);
-            User user = new User(registerCredentials.getEmail(), registerCredentials.getUsername(), registerCredentials.getPassword(), Roles.NON_VERIFIED);
+            User user = new User(registerCredentials.getEmail(), registerCredentials.getPassword(), Roles.NON_VERIFIED);
             userRepository.save(user);
             Verify verify = new Verify(user);
             verifyRepository.save(verify);
@@ -80,7 +80,7 @@ public class AuthService {
 
     public Map<String, String> loginHandler(String auth) {
         try {
-            String encodedString = auth.substring(6);
+            String encodedString = auth.split(" ")[1];
             byte[] bla = Base64.getDecoder().decode(encodedString);
             String credentials = new String(bla, StandardCharsets.UTF_8);
             final String[] values = credentials.split(":", 2);
@@ -88,10 +88,16 @@ public class AuthService {
                     values[1]);
             authenticationManager.authenticate(authenticationToken);
             Optional<User> user = userRepository.findUserByEmail(values[0]);
-            String token = jwtUtil.generateToken(user.get().getId());
-            return Collections.singletonMap("jwt-token", token);
+            if (!user.get().isVerified()) {
+                throw new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED, "Please verify your account first"
+                );
+            } else {
+                String token = jwtUtil.generateToken(user.get().getId());
+                return Collections.singletonMap("jwt-token", token);
+            }
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,"Invalid Login Credentials");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,ex.getMessage());
         }
     }
 }
