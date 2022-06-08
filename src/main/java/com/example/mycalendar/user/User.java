@@ -21,7 +21,6 @@ public class User {
     @Column(columnDefinition = "CHAR(32)")
     private String id;
 
-
     @NotNull
     @Column(unique = true)
     private String email;
@@ -37,8 +36,6 @@ public class User {
     private boolean isBlocked = false;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean verified = false;
-
-
 
     public User(String email, String password, Roles roles) {
         this.email = email;

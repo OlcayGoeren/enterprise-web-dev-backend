@@ -43,22 +43,6 @@ public class AuthService {
         this.verifyRepository = verifyRepository;
     }
 
-
-//    public Map<String, Object> loginHandler(LoginCredentials loginCredentials){
-//        try {
-//            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginCredentials.getEmail(),
-//                    loginCredentials.getPassword());
-//            authenticationManager.authenticate(authenticationToken);
-//            Optional<User> user = userRepository.findUserByEmail(loginCredentials.getEmail());
-//            String token = jwtUtil.generateToken(user.get().getId());
-//            return Collections.singletonMap("jwt-token", token);
-//        } catch (AuthenticationException ex) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,"Invalid Login Credentials");
-//        }
-//    }
-
-
-
     public void registerHandler(RegisterCredentials registerCredentials) {
         if (registerCredentials != null && userRepository.findUserByEmail(registerCredentials.getEmail()).isEmpty()){
             String encodedPass = encoder.encode(registerCredentials.getPassword());
