@@ -4,10 +4,7 @@ import com.example.mycalendar.user.Roles;
 import com.example.mycalendar.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -45,6 +42,8 @@ public class Appointment {
 
     private String von;
     private String bis;
+
+    private boolean fromBetreiber = true;
 
     public Appointment(User user) {
         this.user = user;

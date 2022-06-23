@@ -62,6 +62,25 @@ public class AuthService {
         }
     }
 
+    public Map<String, String> registerGuest(String email) {
+        User user = new User();
+        user.setEmail(email);
+        user.setRoles(Roles.NON_VERIFIED);
+        user.setVerified(true);
+        user.setPassword("guest");
+        User savedUser = userRepository.save(user);
+        String token = jwtUtil.generateToken(savedUser.getId());
+        return Collections.singletonMap("jwt-token", token);
+    }
+
+    public Map<String, String> loginGuest(String email) {
+        User savedUser = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        );
+        String token = jwtUtil.generateToken(savedUser.getId());
+        return Collections.singletonMap("jwt-token", token);
+    }
+
     public Map<String, String> loginHandler(String auth) {
         try {
             String encodedString = auth.split(" ")[1];
@@ -84,4 +103,5 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED ,ex.getMessage());
         }
     }
+
 }

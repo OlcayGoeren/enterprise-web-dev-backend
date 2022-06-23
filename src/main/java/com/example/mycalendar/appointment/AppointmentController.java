@@ -31,19 +31,19 @@ public class AppointmentController {
         this.mailSender = mailSender;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('NONV_USER')")
     @GetMapping(path = "{aId}")
     public Appointment getSingleAppointment(@PathVariable("aId") String id){
         return appointmentService.getSingle(id);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('NONV_USER')")
     @GetMapping()
     public List<Appointment> getAllAppointments(){
         return appointmentService.getAll();
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('NONV_USER')")
     @PostMapping
     public Appointment postAppointment( @RequestBody Appointment appointment) throws IOException, MessagingException {
         if (appointment.getTitle() != null && appointment.getTitle().length() > 2
@@ -62,13 +62,13 @@ public class AppointmentController {
 
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('NONV_USER')")
     @DeleteMapping(path = "{aId}")
     public void deleteAppointment(@PathVariable("aId") String id){
         appointmentService.deleteSingle(id);
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('NONV_USER') ")
     @PutMapping(path ="{aId}")
     public Appointment updateSpecific(@PathVariable("aId") String id, @RequestBody Appointment appointment) throws IOException, MessagingException {
         Appointment appointment1 = appointmentService.updatespecific(id, appointment);
